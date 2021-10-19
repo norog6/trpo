@@ -1,98 +1,70 @@
 #include <iostream>
 #include <ctime>
-#include <cmath>
 using namespace std;
 int main() {
-    int a,b,c,n,x,y,z,chet=0,j,i,num,des;
-    bool f;
-    double s;
+
+    setlocale(LC_ALL, "RUS");
     srand(time(NULL));
-    cout << "Ведите промежуток" << endl;
-    a=100;
-    b=999;
-    c = rand() % (b - a + 1) + a;
-    cout<<"Исходное число:"<<c<<endl;
-    n=c;
-    cout<<"В обратно порядке:";
-    while (n>0)
+    int** a, i, j, n = 0, m, * b, k = 0, nm, s;
+    while (n <= 0)
     {
-        cout<<n%10;
-        n=n/10;
+        cout << "Введите колчиство строк матрицы" << endl;
+        cin >> n;
     }
-    x=c/100;
-    z=c%10;
-    y=(c/10)%10;
-    s=pow(x*y*z,1./3.);
-    cout<<endl;
- cout<<"Cреднее геомтрическое:"<<s<<endl;
- if (x%2==0) chet++;
-    if (y%2==0) chet++;
-    if (z%2==0) chet++;
-    cout<<"Количество четных:"<<chet<<endl;
-    cout<<endl;
-    switch (x)
+    do
     {
-        case 1: cout<<"сто "; break;
-        case 2: cout<<"двести "; break;
-        case 3: cout<<"триста "; break;
-        case 4: cout<<"четыреста "; break;
-        case 5: cout<<"пятьсот "; break;
-        case 6: cout<<"шестьсот  "; break;
-        case 7: cout<<"семьсот "; break;
-        case 8: cout<<"восемьсто "; break;
-        case 9: cout<<"девятьсот "; break;
+        cout << "Введите колчиство стобцов матрицы" << endl;
+        cin >> m;
+    } while (m <= 0);
+    do
+    {
+        cout << "Выберите способ заполнения матрицы" << endl << "1:вручную,2:рандом" << endl;
+        cin >> s;
+    } while (s <1 or s >2);
+    nm = n * m;
+    b = new int[nm];
+    a = new int* [n];
+    for (i = 0; i < n; i++)
+        a[i] = new int[m];
+    if (s == 1)
+    {
+        for (i = 0; i < n; i++)
+            for (j = 0; j < m; j++)
+                cin >> a[i][j];
     }
-    des=c%100;
-    if (des<20 and des>=10)
-      switch (des)
-      {
-          case 10: cout<<"десять"; break;
-          case 11: cout<<"одинадцать"; break;
-          case 12: cout<<"двенадцать"; break;
-          case 13: cout<<"тренадцать"; break;
-          case 14: cout<<"четырнадцать"; break;
-          case 15: cout<<"пятнадцать"; break;
-          case 16: cout<<"шестнадцать"; break;
-          case 17: cout<<"семнадцать"; break;
-          case 18: cout<<"восемнадцать"; break;
-          case 19: cout<<"девятнцадать"; break;
-      }
-    else
+    if (s == 2)
     {
-        switch (y)
-        {
-
-            case 2: cout<<"двадцать "; break;
-            case 3: cout<<"тридцать "; break;
-            case 4: cout<<"сорок "; break;
-            case 5: cout<<"пятьдесят "; break;
-            case 6: cout<<"шестьдесят "; break;
-            case 7: cout<<"семдесят "; break;
-            case 8: cout<<"восемдесят "; break;
-            case 9: cout<<"девяносто "; break;
-        }
-        switch (z)
-        {
-            case 1: cout<<"один"; break;
-            case 2: cout<<"два"; break;
-            case 3: cout<<"три"; break;
-            case 4: cout<<"четыре"; break;
-            case 5: cout<<"пять"; break;
-            case 6: cout<<"шесть"; break;
-            case 7: cout<<"семь"; break;
-            case 8: cout<<"восемь"; break;
-            case 9: cout<<"девять"; break;
-        }
+        for (i = 0; i < n; i++)
+            for (j = 0; j < m; j++)
+                a[i][j] = rand() % 100 + 1;
     }
-    cout<<endl;
-    cout<<"Простые числа:";
-    for (i=1;i<=c;i++)
-    {
-        num=0;
-        for(j=2;j*j<=i;j++)
-            if (i % j == 0) num++;
-            if (num==0) cout << " " << i;
+    for (i = 0; i < n; i++)
+        for (j = 0; j < m; j++, k++) {
+            b[k] = a[i][j];
         }
-
-
+    for (i = 0; i < n; i++)
+    {
+        b[i] = 1;
+        for (j = 0; j <= m / 2; j++)
+            if (a[i][j] != a[i][m - j - 1])
+            {
+                b[i] = 0;
+                break;
+            }
+    }
+    cout << "Ваша матрица:";
+    for (i = 0; i < n; i++)
+    {
+        cout << endl;
+        for (j = 0; j < m; j++)
+            cout << a[i][j] << " ";
+    }
+    cout <<endl<< "Ваш вектор:" << endl;
+    for (i = 0; i < n * m; i++) 
+        cout << b[i] << " ";
+    delete[]b;
+    for (i = 0; i < n; i++)
+        delete[]a[i];
+    delete[]a;
+    return 0;
 }
